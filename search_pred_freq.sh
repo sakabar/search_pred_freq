@@ -19,6 +19,11 @@ file_name=`lv /local2/sasano/pred.list | LC_ALL=C grep " "$pred | awk '{print $1
   echo ""
 } >&2
 
-lv /local2/sasano/pa.data.basic.split/$file_name \
-  | LC_ALL=C grep -- $pred" "$keyword"/[^;:/ ]*;[^:]\+:"$cas"[^ ]*$"
+#「する/する:動」に関しては時間がかかりすぎるためカウントしない
+if [ $pred = "する/する:動" ]; then
+  echo "0 する/する:動 "$keyword":"$cas
+else
+  lv /local2/sasano/pa.data.basic.split/$file_name \
+    | LC_ALL=C grep -- $pred" "$keyword"/[^;:/ ]*;[^:]\+:"$cas"[^ ]*$"
+fi
  
